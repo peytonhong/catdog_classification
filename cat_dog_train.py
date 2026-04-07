@@ -59,14 +59,14 @@ test_accuracy_list = []
 def get_accuracy_list(outputs, labels):
     outputs = outputs.detach().cpu().numpy()
     labels = labels.detach().cpu().numpy()
-    estimates = np.argmax(outputs, 1)
+    estimates = np.argmax(outputs, 1)   # output.shape = (4,2)
     accuracy_list = []
     for estimate, label in zip(estimates, labels):
         if estimate==label:
             accuracy_list.append(1)
         else:
             accuracy_list.append(0)
-    return accuracy_list
+    return accuracy_list                # accuracy_list = [1,1,0,1]
 
 for epoch in range(num_epochs):
     print(f"Epoch: {epoch} / {num_epochs-1}")
@@ -82,11 +82,11 @@ for epoch in range(num_epochs):
         loss = criterion(outputs, labels)
         loss.backward()     # weight 업데이트 할 값 계산 (편미분, Gradient)
         optimizer.step()    # weight 업데이트 실행
-        loss_sum += loss.item()
-        accuracy_list += get_accuracy_list(outputs, labels)
-    train_loss = loss_sum*batch_size/len(train_dataset)
+        loss_sum += loss.item()*batch_size
+        accuracy_list += get_accuracy_list(outputs, labels)         # [1,1,0,1] + [0,0,1,1] + [0,1,0,1] = [1,1,0,1,0,0,1,1,0,1,0,1]
+    train_loss = loss_sum/len(train_dataset)
     train_loss_list.append(train_loss)
-    train_accuracy = np.mean(accuracy_list)*100
+    train_accuracy = np.mean(accuracy_list)*100 # %단위로 변환
     train_accuracy_list.append(train_accuracy)
 
     model.eval()    # 검증 모드로 전환
@@ -98,9 +98,9 @@ for epoch in range(num_epochs):
             labels = labels.to(device)
             outputs = model(images)
             loss = criterion(outputs, labels)
-            loss_sum += loss.item()
+            loss_sum += loss.item()*batch_size
             accuracy_list += get_accuracy_list(outputs, labels)
-    test_loss = loss_sum*batch_size/len(test_dataset)
+    test_loss = loss_sum/len(test_dataset)
     test_loss_list.append(test_loss)
     test_accuracy = np.mean(accuracy_list)*100
     test_accuracy_list.append(test_accuracy)

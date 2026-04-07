@@ -55,7 +55,7 @@ train_loss_list = []
 test_loss_list = []
 
 # load model
-state_dict = torch.load(os.path.join('output', 'model_best.pth'), weights_only=True)
+state_dict = torch.load(os.path.join('output', 'model_best.pth'), weights_only=True, map_location=torch.device('cpu'))
 model.load_state_dict(state_dict)
 
 
@@ -70,10 +70,10 @@ with torch.no_grad():
         image_path = image_paths[idx]
         image_cv = cv2.imread(image_path)
         image = Image.open(image_paths[idx]).convert('RGB')
-        outputs = model(transform(image).unsqueeze(0).to(device))
+        outputs = model(transform(image).unsqueeze(0).to(device))   # input shape: (N, C, H, W)
         outputs = outputs[0].detach().cpu().numpy()
         label = np.argmax(outputs)
-        print(label)
+        print(outputs, label)
         cv2.imshow("image", image_cv)
         key = cv2.waitKey()
 

@@ -118,7 +118,7 @@ class CNNModel_v2(nn.Module):
         x = self.flatten(x)
         x = self.relu(self.fc1(x))
         x = self.dropout(x)
-        x = self.fc2(x)
+        x = self.fc2(x) # logit
         return x
 
 
