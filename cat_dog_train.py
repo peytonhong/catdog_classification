@@ -10,6 +10,7 @@ import torchvision.transforms as transforms
 import torch.optim as optim
 from tqdm import tqdm
 import matplotlib.pyplot as plt
+from ResNet_simple import ResNet50, ResNet101, ResNet152
 
 # transform = transforms.Compose([transforms.ToTensor()])
 transform = transforms.Compose([
@@ -37,7 +38,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # model = MLPModel()
 # model = CNNModel()
-model = CNNModel_v2().to(device)
+# model = CNNModel_v2().to(device)
+model = ResNet50(num_classes=2).to(device)
 
 # criterion = nn.MSELoss(reduction='mean')
 criterion = nn.CrossEntropyLoss()
