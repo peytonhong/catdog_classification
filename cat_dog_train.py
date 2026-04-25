@@ -23,7 +23,7 @@ train_dataset = CatDogClassification(dataset_dir=os.path.join('catdog_dataset', 
 test_dataset = CatDogClassification(dataset_dir=os.path.join('catdog_dataset', 'test'), transforms=transform)
 
 # image, label = train_dataset[10]
-batch_size = 96
+batch_size = 128
 train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
 test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=True)
 
@@ -117,15 +117,15 @@ for epoch in range(num_epochs):
 
     plt.figure(figsize=(5, 10))
     plt.subplot(2,1,1)
-    plt.plot(train_loss_list, marker='o', label='Train Loss')
-    plt.plot(test_loss_list, marker='o', label='Test Loss')
+    plt.plot(train_loss_list, marker='.', label='Train Loss')
+    plt.plot(test_loss_list, marker='.', label='Test Loss')
     plt.legend()
     plt.grid()
     plt.title("Loss Curve")
 
     plt.subplot(2,1,2)
-    plt.plot(train_accuracy_list, marker='o', label='Train Accuracy')
-    plt.plot(test_accuracy_list, marker='o', label='Test Accuracy')
+    plt.plot(train_accuracy_list, marker='.', label='Train Accuracy')
+    plt.plot(test_accuracy_list, marker='.', label='Test Accuracy')
     plt.xlabel('Epochs')
     plt.ylabel('%')
     plt.legend()
