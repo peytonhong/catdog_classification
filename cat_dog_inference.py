@@ -70,7 +70,8 @@ with torch.no_grad():
         image_path = image_paths[idx]
         image_cv = cv2.imread(image_path)
         image = Image.open(image_paths[idx]).convert('RGB')
-        outputs = model(transform(image).unsqueeze(0).to(device))   # input shape: (N, C, H, W)
+        # temporary comment
+        outputs = model(transform(image).unsqueeze(0).to(device))   # input shape: (C, H, W) --> (1, C, H, W)
         outputs = outputs[0].detach().cpu().numpy()
         label = np.argmax(outputs)
         print(outputs, label)
